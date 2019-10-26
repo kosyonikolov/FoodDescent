@@ -32,7 +32,7 @@ def gradient(function, args):
     return result
 
 def vectorDiff(a, b, scale):
-    return [a[i] - b[i] * scale for i in range(len(a))]
+    return [max(0.0, a[i] - b[i] * scale) for i in range(len(a))]
 
 def scalarProduct(a, b):
     return sum([a[i] * b[i] for i in range(len(a))])
@@ -69,21 +69,12 @@ def descent(function, initialArgs, initialStep, minStep):
         gradientScalar = scalarProduct(g, g)
 
         # Armijo rule
-        c1 = 0.001
-        if bestVal > oldVal + c1 * gradientScalar:
-            break
+        #c1 = 0.001
+        #if bestVal > oldVal + c1 * gradientScalar:
+        #    break
 
         if successCount >= stepIncreaseThr:
             step *= 1.8
             successCount = 0
 
     return (args, bestVal)
-
-
-g = gradient(f, [5, -3])
-print(g)
-
-result = descent(f, [9.0, 3, 100], 0.5, 0.001)
-print(result)
-
-print("Hello python")
