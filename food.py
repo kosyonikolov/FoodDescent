@@ -8,18 +8,19 @@ class Food:
     protein: float
     carbs: float
     badFat: float
+    saturation: float
 
 # absolute
-priceConst = 2.0
-badFatConst = 3.0
+priceConst = 10.0
+badFatConst = 0.5
 
 # relative
-energyConst = 300.0
-proteinConst = 7300.0
+energyConst = 400.0
+proteinConst = 300.0
 carbConst = 0.0
 
 def sumFoods(foods, kgs):
-    result = Food(0, 0, 0, 0, 0)
+    result = Food(0, 0, 0, 0, 0, 0)
 
     result.price = sum([foods[i].price * kgs[i] for i in range(len(foods))])
     result.energy = sum([foods[i].energy * kgs[i] for i in range(len(foods))])
@@ -35,9 +36,12 @@ def getFoodCost(foods, kgs, refFood):
     cost = 0
 
     cost += sumFood.price * priceConst
-    cost += abs(1.0 - sumFood.energy / refFood.energy) * energyConst
+    if sumFood.energy < refFood.energy:
+        cost += 10 * energyConst * (1.0 - sumFood.energy / refFood.energy)
+    else:
+        cost += abs(1.0 - sumFood.energy / refFood.energy) * energyConst
     cost += max(0.0, 1.0 - sumFood.protein / refFood.protein) * proteinConst
-    cost += abs(1.0 - sumFood.carbs / refFood.carbs) * carbConst
+    cost += max(0.0, 1.0 - sumFood.carbs / refFood.carbs) * carbConst
     cost += sumFood.badFat * badFatConst
 
     return cost

@@ -69,9 +69,9 @@ def descent(function, initialArgs, initialStep, minStep):
         gradientScalar = scalarProduct(g, g)
 
         # Armijo rule
-        #c1 = 0.001
-        #if bestVal > oldVal + c1 * gradientScalar:
-        #    break
+        c1 = 0.001
+        if bestVal > oldVal + c1 * gradientScalar:
+            break
 
         if successCount >= stepIncreaseThr:
             step *= 1.8
